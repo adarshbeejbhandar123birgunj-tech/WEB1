@@ -8,6 +8,7 @@ export type ProductCategory =
   | 'herbicides' 
   | 'nutrition' 
   | 'biologicals'
+  | 'traps'
   | 'pgr'
   | 'equipment';
 

@@ -120,9 +120,9 @@ const programs: ProgramSpec[] = [
     nepaliAdvice: 'तोरीमा तेलको मात्रा बढाउन र माटो सुधार्न अन्तिम जोताइमा छर्नुहोस्।'
   },
   {
-    id: 'seed-paddy-us312',
-    name: 'ISP Hybrid Paddy US-312 Seed',
-    nepaliName: 'आइ.एस.पी. हाइब्रिड धान युएस-३१२ बीउ',
+    id: 'seed-paddy-isp184',
+    name: 'ISP 184 Certified Hybrid Paddy Seed',
+    nepaliName: 'आइ.एस.पी. १८४ प्रमाणित हाइब्रिड धान बीउ',
     unitType: 'seed',
     ratePerKattha: 300,
     ratePerRopani: 450,
@@ -130,13 +130,13 @@ const programs: ProgramSpec[] = [
     waterLitersPerKattha: 0,
     displayUnit: 'grams',
     tankDosage: 'Nursery bed sowing',
-    advice: 'Prepare raised nursery beds. Soak seeds in clean water for 24 hours before germination.',
-    nepaliAdvice: 'उठेको ब्याड बनाएर रोप्नुहोस्। बीउलाई २४ घण्टा सफा पानीमा भिजाएर उमार्नुहोस्।'
+    advice: 'Achieves 20-25% greater yield. Soak seeds in clean water for 24 hours before nursery sowing.',
+    nepaliAdvice: '२०-२५% बढी उत्पादन दिने प्रमाणित बीउ। २४ घण्टा सफा पानीमा भिजाएर ब्याडमा छर्नुहोस्।'
   },
   {
-    id: 'seed-maize-isp909',
-    name: 'ISP Hybrid Maize 909 Seed',
-    nepaliName: 'आइ.एस.पी. हाइब्रिड मकै ९०९ बीउ',
+    id: 'seed-maize-isp176',
+    name: 'ISP 176 High Yield Hybrid Maize Seed',
+    nepaliName: 'आइ.एस.पी. १७६ उन्नत हाइब्रिड मकै बीउ',
     unitType: 'seed',
     ratePerKattha: 400,
     ratePerRopani: 600,
@@ -144,8 +144,8 @@ const programs: ProgramSpec[] = [
     waterLitersPerKattha: 0,
     displayUnit: 'grams',
     tankDosage: 'Line sowing (60cm x 20cm)',
-    advice: 'Maintain 60 cm line to line and 20 cm plant to plant distance for maximum cob size.',
-    nepaliAdvice: 'लाइनदेखि लाइन ६० से.मी. र बोटदेखि बोट २० से.मी. दूरी राखेर रोप्नुहोस्।'
+    advice: 'High yielding 95-110 days semi-flint hybrid. Maintain 60 cm line to line distance.',
+    nepaliAdvice: '९५-११० दिनमा पाक्ने पहेंलो सुन्तला दाना। लाइनदेखि लाइन ६० से.मी. दूरीमा रोप्नुहोस्।'
   }
 ];
 

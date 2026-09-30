@@ -12,7 +12,7 @@ export const FieldTrials: React.FC<FieldTrialsProps> = ({ lang }) => {
       crop: lang === 'en' ? 'Paddy / Rice' : 'धान बाली',
       location: 'Bindyabasini Rural Municipality, Parsa',
       nepaliLocation: 'विन्ध्यवासिनी गाउँपालिका, पर्सा',
-      productUsed: 'ISP Hybrid US-312 + SML Techno-Z',
+      productUsed: 'ISP 184 Hybrid Paddy + SML Techno-Z',
       date: 'Kharif Season',
       result: '+52% Yield Increase',
       nepaliResult: '+५२% उत्पादन वृद्धि',

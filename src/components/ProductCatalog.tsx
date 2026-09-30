@@ -7,11 +7,14 @@ import {
   ShieldCheck, 
   ShoppingCart, 
   Check, 
-  X,
-  Sparkles,
-  Info,
-  Package,
-  Image as ImageIcon
+  X, 
+  Sparkles, 
+  Info, 
+  Package, 
+  Image as ImageIcon,
+  Building2,
+  Layers,
+  ChevronRight
 } from 'lucide-react';
 import { Product, ProductCategory, BrandName, Language } from '../types';
 import { productsData } from '../data/products';
@@ -45,6 +48,55 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     }));
   };
 
+  // Company metadata and brand specifications
+  const companySections = [
+    {
+      id: 'all',
+      name: lang === 'en' ? 'All Companies' : 'सबै कम्पनी',
+      tagline: lang === 'en' ? 'Complete Authorized Input Portfolio' : 'सम्पूर्ण अधिकृत कृषि सामग्री सूची',
+      color: '#047857'
+    },
+    {
+      id: 'SML Limited',
+      name: 'SML Limited',
+      tagline: lang === 'en' ? 'World Leader in Sulphur, Micronutrients & Crop Protection' : 'सल्फर, सूक्ष्म पोषक तत्व र पेटेन्टेड ढुसीनाशक प्रविधि',
+      color: '#047857'
+    },
+    {
+      id: 'ADAMA India',
+      name: 'ADAMA India',
+      tagline: lang === 'en' ? 'Global Off-Patent Innovation, Advanced Herbicides & Insecticides' : 'विश्वस्तरीय झारनाशक, कस्टोडिया, ब्याराजाइड र कीटनाशक',
+      color: '#1e3a8a'
+    },
+    {
+      id: 'Mankind Agritech',
+      name: 'Mankind Agritech',
+      tagline: lang === 'en' ? 'Bio-Enriched Manures, Eco Pheromone Traps & Agrochemicals' : 'शील्डकाइन्ड फेरोमोन ट्रयाप, जैविक मल र आधुनिक रसायन',
+      color: '#9d174d'
+    },
+    {
+      id: 'Albaugh / Rotam',
+      name: 'Albaugh / Rotam',
+      tagline: lang === 'en' ? 'Global Post-Patent Crop Protection & Selective Weed Control' : 'रोटाम तथा अल्बौका भरपर्दा झारनाशक तथा कीटनाशक',
+      color: '#b45309'
+    },
+    {
+      id: 'ISP Seeds',
+      name: 'ISP Seeds (Inventive)',
+      tagline: lang === 'en' ? 'Certified Hybrid Paddy, Maize, Mustard & Hybrid Vegetables' : 'उन्नत हाइब्रिड धान, मकै, तोरी र तरकारीका प्रमाणित बीउ',
+      color: '#15803d'
+    }
+  ];
+
+  // Live product counts by company
+  const companyCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: productsData.length };
+    for (const p of productsData) {
+      counts[p.brand] = (counts[p.brand] || 0) + 1;
+    }
+    return counts;
+  }, []);
+
   const categories: { id: ProductCategory; label: string }[] = [
     { id: 'all', label: t.catalog.all },
     { id: 'seeds', label: t.catalog.seeds },
@@ -53,27 +105,31 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     { id: 'herbicides', label: t.catalog.herbicides },
     { id: 'nutrition', label: t.catalog.nutrition },
     { id: 'biologicals', label: t.catalog.biologicals },
+    { id: 'traps', label: t.catalog.traps },
     { id: 'pgr', label: t.catalog.pgr },
     { id: 'equipment', label: t.catalog.equipment }
   ];
 
-  const brands = [
-    { id: 'all', label: lang === 'en' ? 'All Brands' : 'सबै ब्राण्डहरू' },
-    { id: 'SML Limited', label: 'SML Limited' },
-    { id: 'ADAMA India', label: 'ADAMA India' },
-    { id: 'Mankind Agritech', label: 'Mankind Agritech' },
-    { id: 'Albaugh / Rotam', label: 'Albaugh / Rotam' },
-    { id: 'ISP Seeds', label: 'ISP Seeds (Inventive)' }
-  ];
+  // Dynamic category counts for currently selected company
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: 0 };
+    for (const p of productsData) {
+      if (selectedBrand === 'all' || p.brand === selectedBrand) {
+        counts.all = (counts.all || 0) + 1;
+        counts[p.category] = (counts[p.category] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [selectedBrand]);
 
   const filteredProducts = useMemo(() => {
     return productsData.filter((p) => {
-      // Category filter
-      if (selectedCategory !== 'all' && p.category !== selectedCategory) {
+      // Company / Brand filter
+      if (selectedBrand !== 'all' && p.brand !== selectedBrand) {
         return false;
       }
-      // Brand filter
-      if (selectedBrand !== 'all' && p.brand !== selectedBrand) {
+      // Category filter
+      if (selectedCategory !== 'all' && p.category !== selectedCategory) {
         return false;
       }
       // Search query
@@ -90,12 +146,14 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     });
   }, [selectedCategory, selectedBrand, searchQuery]);
 
+  const activeCompany = companySections.find((c) => c.id === selectedBrand);
+
   return (
     <section id="catalog" className="py-16 bg-white border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
         {/* Section Heading */}
-        <div className="max-w-3xl mb-10">
+        <div className="max-w-3xl mb-8">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 tracking-wider uppercase mb-2">
             <FlaskConical className="w-4 h-4 text-emerald-600" />
             <span>{lang === 'en' ? 'Authentic Input Portfolio' : 'प्रमाणित कृषि सामग्री क्याटलग'}</span>
@@ -108,64 +166,164 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </p>
         </div>
 
-        {/* Filter Controls Bar */}
-        <div className="space-y-4 mb-8">
-          
-          {/* Search Bar & Brand Dropdown */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t.catalog.searchPlaceholder}
-                className="w-full pl-10 pr-9 py-2.5 bg-stone-50 border border-stone-300 rounded-xl text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 p-0.5"
-                  aria-label="Clear search"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
+        {/* ========================================================================= */}
+        {/* 1. COMPANY SECTIONS SELECTOR (AS REQUESTED)                               */}
+        {/* ========================================================================= */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-2.5">
+            <span className="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-emerald-700" />
+              {lang === 'en' ? 'Filter By Company Section:' : 'कम्पनी खण्ड अनुसार छान्नुहोस्:'}
+            </span>
+            <span className="text-xs text-stone-500 font-medium">
+              {lang === 'en' ? '5 Official Partner Companies' : '५ आधिकारिक साझेदार कम्पनीहरू'}
+            </span>
+          </div>
 
-            {/* Brand Filter Dropdown */}
-            <div className="w-full sm:w-56 shrink-0">
-              <select
-                value={selectedBrand}
-                onChange={(e) => setSelectedBrand(e.target.value)}
-                className="w-full py-2.5 px-3 bg-stone-50 border border-stone-300 rounded-xl text-xs sm:text-sm text-stone-800 font-medium focus:outline-hidden focus:ring-2 focus:ring-emerald-600"
-              >
-                {brands.map((b) => (
-                  <option key={b.id} value={b.id}>
-                    {b.label}
-                  </option>
-                ))}
-              </select>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            {companySections.map((company) => {
+              const isSelected = selectedBrand === company.id;
+              const count = companyCounts[company.id] || 0;
+
+              return (
+                <button
+                  key={company.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedBrand(company.id);
+                    // If switching company, keep category if valid or reset if no products
+                    if (company.id !== 'all') {
+                      const hasCurrentCategory = productsData.some(
+                        (p) => p.brand === company.id && p.category === selectedCategory
+                      );
+                      if (!hasCurrentCategory && selectedCategory !== 'all') {
+                        setSelectedCategory('all');
+                      }
+                    }
+                  }}
+                  className={`p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between ${
+                    isSelected
+                      ? 'bg-emerald-950 text-white border-emerald-900 shadow-md ring-2 ring-emerald-600'
+                      : 'bg-stone-50 hover:bg-white text-stone-800 border-stone-200/90 hover:border-emerald-300 hover:shadow-xs'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <span className="text-xs font-bold truncate">
+                      {company.name}
+                    </span>
+                    <span
+                      className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0 ${
+                        isSelected
+                          ? 'bg-emerald-700 text-white'
+                          : 'bg-stone-200 text-stone-700'
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  </div>
+                  <span
+                    className={`text-[10px] line-clamp-1 leading-tight ${
+                      isSelected ? 'text-emerald-200' : 'text-stone-500'
+                    }`}
+                  >
+                    {company.tagline}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Company Active Spotlight Banner */}
+        {selectedBrand !== 'all' && activeCompany && (
+          <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs uppercase tracking-wider font-extrabold text-amber-300">
+                  {lang === 'en' ? 'Official Company Section' : 'आधिकारिक कम्पनी खण्ड'}
+                </span>
+                <span className="text-xs text-emerald-200">·</span>
+                <span className="text-xs font-semibold text-emerald-100">
+                  {companyCounts[selectedBrand]} {lang === 'en' ? 'Verified Products' : 'प्रमाणित उत्पादनहरू'}
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white mt-0.5">
+                {activeCompany.name}
+              </h3>
+              <p className="text-xs text-emerald-100 mt-0.5 max-w-2xl">
+                {activeCompany.tagline}
+              </p>
             </div>
+            <button
+              type="button"
+              onClick={() => setSelectedBrand('all')}
+              className="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-semibold text-white transition-colors shrink-0 flex items-center gap-1"
+            >
+              <span>{lang === 'en' ? 'View All Companies' : 'सबै कम्पनी हेर्नुहोस्'}</span>
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 2. SEARCH & CATEGORY FILTER TABS                                         */}
+        {/* ========================================================================= */}
+        <div className="space-y-3 mb-6">
+          
+          {/* Search Bar */}
+          <div className="relative">
+            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t.catalog.searchPlaceholder}
+              className="w-full pl-10 pr-9 py-2.5 bg-stone-50 border border-stone-300 rounded-xl text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-2xs"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 p-0.5"
+                aria-label="Clear search"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
           {/* Interactive Category Segmented Tabs */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 p-1 bg-stone-100 rounded-xl border border-stone-200">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-2 text-xs font-semibold rounded-lg whitespace-nowrap transition-colors ${
-                  selectedCategory === cat.id
-                    ? 'bg-white text-emerald-900 shadow-xs border border-stone-200/80'
-                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const count = categoryCounts[cat.id] || 0;
+              const isSelected = selectedCategory === cat.id;
+
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                    isSelected
+                      ? 'bg-white text-emerald-950 shadow-xs border border-stone-200/80 font-bold'
+                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                  }`}
+                >
+                  <span>{cat.label}</span>
+                  {count > 0 && (
+                    <span
+                      className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                        isSelected
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-stone-200/80 text-stone-500'
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
         </div>
@@ -227,8 +385,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             </h3>
             <p className="text-xs text-stone-500 max-w-md mx-auto mt-1">
               {lang === 'en' 
-                ? 'Try broadening your search query or selecting a different category filter.' 
-                : 'कृपया खोज्ने शब्द परिवर्तन गर्नुहोस् वा अन्य क्याटेगोरी छान्नुहोस्।'}
+                ? 'Try broadening your search query or selecting a different category or company filter.' 
+                : 'कृपया खोज्ने शब्द परिवर्तन गर्नुहोस् वा अन्य क्याटेगोरी वा कम्पनी छान्नुहोस्।'}
             </p>
           </div>
         ) : (
@@ -302,7 +460,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                       {/* Metadata row with zero pill discipline */}
                       <div className="flex items-center gap-2 text-xs text-stone-500 font-medium">
                         <span className="uppercase tracking-wider font-semibold text-emerald-800">
-                          {product.category}
+                          {product.brand}
                         </span>
                         <span aria-hidden="true">·</span>
                         <span className="font-mono text-stone-600 truncate">{product.formulation}</span>
@@ -326,7 +484,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         <span className="font-mono text-emerald-950">{product.activeIngredient}</span>
                       </div>
 
-                      {/* Target Crops & Pests */}
+                      {/* Target Crops & Dosage */}
                       <div className="text-xs text-stone-600 space-y-1">
                         <div>
                           <span className="font-semibold text-stone-800">{lang === 'en' ? 'Crops: ' : 'बाली: '}</span>

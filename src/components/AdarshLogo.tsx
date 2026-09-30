@@ -13,163 +13,201 @@ export const AdarshLogo: React.FC<AdarshLogoProps> = ({
   showTagline = true,
   emblemOnly = false
 }) => {
-  const idPrefix = light ? 'logo-light-' : 'logo-dark-';
+  const idPrefix = light ? 'orig-logo-light-' : 'orig-logo-dark-';
 
-  return (
-    <div className={`inline-flex items-center gap-2.5 sm:gap-3.5 select-none ${className}`}>
-      
-      {/* ========================================================= */}
-      {/* 1. HIGH PRECISION EMBLEM (Organic Leaf "A")               */}
-      {/* ========================================================= */}
+  if (emblemOnly) {
+    return (
       <svg
-        viewBox="0 0 160 160"
+        viewBox="0 0 80 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-auto aspect-square shrink-0 drop-shadow-xs"
-        aria-label="Adarsh Leaf Monogram Emblem"
+        className={`w-auto shrink-0 select-none ${className}`}
+        aria-label="Adarsh Emblem"
       >
         <defs>
-          {/* Outer Left Leaf Blade - Bright Sunlit Spring Green */}
-          <linearGradient id={`${idPrefix}outerLeaf`} x1="10%" y1="10%" x2="80%" y2="90%">
-            <stop offset="0%" stopColor="#84cc16" />
-            <stop offset="40%" stopColor="#65a30d" />
-            <stop offset="100%" stopColor="#15803d" />
+          <linearGradient id={`${idPrefix}grad-left`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#7bc043" />
+            <stop offset="55%" stopColor="#2e7d32" />
+            <stop offset="100%" stopColor="#1b5e20" />
           </linearGradient>
-
-          {/* Inner Left Arch - Deep Forest Green */}
-          <linearGradient id={`${idPrefix}innerLeaf`} x1="60%" y1="20%" x2="30%" y2="85%">
-            <stop offset="0%" stopColor="#166534" />
-            <stop offset="60%" stopColor="#14532d" />
-            <stop offset="100%" stopColor="#052e16" />
+          <linearGradient id={`${idPrefix}grad-cross`} x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#1b5e20" />
+            <stop offset="40%" stopColor="#4caf50" />
+            <stop offset="100%" stopColor="#8bc34a" />
           </linearGradient>
-
-          {/* Dynamic Horizontal Crossbar Swoosh Leaf */}
-          <linearGradient id={`${idPrefix}crossSwoosh`} x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#15803d" />
-            <stop offset="35%" stopColor="#4ade80" />
-            <stop offset="70%" stopColor="#86efac" />
-            <stop offset="100%" stopColor="#22c55e" />
-          </linearGradient>
-
-          {/* Right Leg Serif Stem */}
-          <linearGradient id={`${idPrefix}rightStem`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={light ? "#ffffff" : "#14532d"} />
-            <stop offset="100%" stopColor={light ? "#dcfce7" : "#052e16"} />
+          <linearGradient id={`${idPrefix}grad-right`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={light ? "#ffffff" : "#1b5e20"} />
+            <stop offset="100%" stopColor={light ? "#c8e6c9" : "#0d3c13"} />
           </linearGradient>
         </defs>
 
-        {/* 1. Left Blade Body (Deep green inner body) */}
+        {/* Left Leaf Blade of the 'A' */}
         <path
-          d="M 82 14
-             C 74 36, 62 62, 52 92
-             C 44 116, 42 134, 54 146
-             C 38 128, 42 100, 58 68
-             C 70 44, 78 26, 82 14 Z"
-          fill={light ? "#22c55e" : `url(#${idPrefix}innerLeaf)`}
+          d="M 40 6
+             C 30 18, 16 38, 13 54
+             C 11 67, 18 73, 26 74
+             C 21 65, 23 54, 29 40
+             C 34 28, 38 15, 40 6 Z"
+          fill={`url(#${idPrefix}grad-left)`}
         />
-
-        {/* 2. Left Blade Crest (Lush lime-to-emerald gradient) */}
+        {/* Right Stem of the 'A' with Serif Base */}
         <path
-          d="M 82 14
-             C 62 38, 36 74, 32 106
-             C 28 128, 38 142, 54 146
-             C 44 130, 48 110, 58 84
-             C 68 58, 76 34, 82 14 Z"
-          fill={`url(#${idPrefix}outerLeaf)`}
+          d="M 40 6
+             L 61 65
+             C 63 70, 66 72, 70 73
+             L 70 74
+             L 51 74
+             L 51 73
+             C 55 72, 57 70, 56 65
+             L 46 36
+             L 40 6 Z"
+          fill={`url(#${idPrefix}grad-right)`}
         />
-
-        {/* 3. Right Serif Leg of the 'A' */}
+        {/* Sweeping Center Leaf Crossbar */}
         <path
-          d="M 82 14
-             L 122 130
-             C 126 138, 132 142, 140 144
-             L 140 146
-             L 102 146
-             L 102 144
-             C 110 142, 114 138, 114 130
-             L 95 72
-             L 82 14 Z"
-          fill={light ? "#ffffff" : `url(#${idPrefix}rightStem)`}
+          d="M 5 69
+             C 16 57, 32 47, 49 42
+             C 64 38, 73 40, 78 45
+             C 68 41, 56 41, 43 45
+             C 27 50, 14 58, 5 69 Z"
+          fill={`url(#${idPrefix}grad-cross)`}
         />
-
-        {/* 3b. Soft Shadow under crossbar on right leg */}
-        {!light && (
-          <path
-            d="M 100 86 L 115 84 L 118 98 L 102 99 Z"
-            fill="#052e16"
-            opacity="0.35"
-          />
-        )}
-
-        {/* 4. Organic Leaf Swoosh Crossbar (Emerges from bottom-left and sweeps across) */}
+        {/* Center Leaf Rib Highlight */}
         <path
-          d="M 10 138
-             C 32 116, 62 96, 96 86
-             C 124 78, 146 80, 158 92
-             C 140 85, 116 85, 88 93
-             C 56 102, 30 118, 10 138 Z"
-          fill={`url(#${idPrefix}crossSwoosh)`}
-        />
-
-        {/* 5. Center Leaf Ridge Highlight */}
-        <path
-          d="M 24 128
-             C 52 108, 82 94, 114 89
-             C 134 86, 148 88, 154 92
-             C 142 88, 122 86, 102 89
-             C 70 96, 44 110, 24 128 Z"
-          fill="#d9f99d"
-          opacity="0.75"
+          d="M 11 64
+             C 25 54, 41 45, 57 43
+             C 68 41, 75 42, 77 44
+             C 71 42, 60 41, 50 43
+             C 35 46, 21 54, 11 64 Z"
+          fill="#dcedc8"
+          opacity="0.8"
         />
       </svg>
+    );
+  }
 
-      {/* ========================================================= */}
-      {/* 2. CORPORATE TYPOGRAPHY ("Adarsh™" & "Harvesting Tomorrow") */}
-      {/* ========================================================= */}
-      {!emblemOnly && (
-        <div className="flex flex-col justify-center leading-none tracking-tight">
-          
-          {/* Main Brand Name + TM */}
-          <div className="flex items-baseline gap-0.5">
-            <span
-              className={`font-serif font-black tracking-tight text-2xl sm:text-[28px] lg:text-[32px] leading-tight ${
-                light ? 'text-white' : 'text-emerald-950'
-              }`}
-              style={{
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
-                letterSpacing: '-0.02em'
-              }}
-            >
-              Adarsh
-            </span>
-            <span
-              className={`font-serif font-bold text-[10px] sm:text-xs leading-none -translate-y-2 sm:-translate-y-2.5 ${
-                light ? 'text-emerald-300' : 'text-emerald-800'
-              }`}
-              style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif" }}
-            >
-              ™
-            </span>
-          </div>
+  return (
+    <svg
+      viewBox={showTagline ? "0 0 280 80" : "0 0 280 62"}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`w-auto shrink-0 select-none ${className}`}
+      aria-label="Adarsh - Harvesting Tomorrow"
+    >
+      <defs>
+        {/* Left Leaf Blade Gradient */}
+        <linearGradient id={`${idPrefix}grad-left`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#7bc043" />
+          <stop offset="55%" stopColor="#2e7d32" />
+          <stop offset="100%" stopColor="#1b5e20" />
+        </linearGradient>
 
-          {/* Subtitle Tagline */}
-          {showTagline && (
-            <span
-              className={`font-serif italic text-[11px] sm:text-[13px] font-bold tracking-wide -mt-1 ${
-                light ? 'text-emerald-300' : 'text-emerald-800'
-              }`}
-              style={{
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
-                letterSpacing: '0.015em'
-              }}
-            >
-              Harvesting Tomorrow
-            </span>
-          )}
+        {/* Dynamic Leaf Crossbar Gradient */}
+        <linearGradient id={`${idPrefix}grad-cross`} x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#1b5e20" />
+          <stop offset="40%" stopColor="#4caf50" />
+          <stop offset="100%" stopColor="#8bc34a" />
+        </linearGradient>
 
-        </div>
-      )}
+        {/* Right Stem Gradient */}
+        <linearGradient id={`${idPrefix}grad-right`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor={light ? "#ffffff" : "#1b5e20"} />
+          <stop offset="100%" stopColor={light ? "#c8e6c9" : "#0d3c13"} />
+        </linearGradient>
+      </defs>
 
-    </div>
+      {/* ======================================================= */}
+      {/* 1. ORIGINAL STYLIZED LEAF "A" EMBLEM                    */}
+      {/* ======================================================= */}
+      <g transform="translate(4, 2)">
+        {/* Left Leaf Blade */}
+        <path
+          d="M 36 5
+             C 27 16, 14 35, 12 50
+             C 10 61, 16 67, 24 68
+             C 19 59, 21 49, 26 36
+             C 30 25, 34 14, 36 5 Z"
+          fill={`url(#${idPrefix}grad-left)`}
+        />
+        {/* Right Stem with Serif Base */}
+        <path
+          d="M 36 5
+             L 55 59
+             C 57 64, 60 66, 63 67
+             L 63 68
+             L 46 68
+             L 46 67
+             C 49 66, 51 64, 50 59
+             L 41 33
+             L 36 5 Z"
+          fill={`url(#${idPrefix}grad-right)`}
+        />
+        {/* Center Sweeping Leaf Crossbar */}
+        <path
+          d="M 4 63
+             C 14 52, 29 43, 44 38
+             C 58 34, 66 36, 71 41
+             C 62 37, 51 37, 39 41
+             C 24 45, 12 53, 4 63 Z"
+          fill={`url(#${idPrefix}grad-cross)`}
+        />
+        {/* Center Leaf Rib Highlight */}
+        <path
+          d="M 10 59
+             C 23 49, 37 41, 51 39
+             C 61 37, 68 38, 70 40
+             C 64 38, 54 37, 45 39
+             C 32 42, 19 49, 10 59 Z"
+          fill="#dcedc8"
+          opacity="0.8"
+        />
+      </g>
+
+      {/* ======================================================= */}
+      {/* 2. CLASSIC CORPORATE TYPOGRAPHY                         */}
+      {/* ======================================================= */}
+      <g transform="translate(86, 0)">
+        {/* Main "Adarsh" Wordmark */}
+        <text
+          x="0"
+          y="44"
+          fontFamily="'Cormorant Garamond', 'Playfair Display', Georgia, serif"
+          fontSize="44"
+          fontWeight="bold"
+          letterSpacing="-0.5px"
+          fill={light ? "#ffffff" : "#14532d"}
+        >
+          Adarsh
+        </text>
+
+        {/* Superscript "TM" */}
+        <text
+          x="142"
+          y="23"
+          fontFamily="'Cormorant Garamond', 'Playfair Display', Georgia, serif"
+          fontSize="12"
+          fontWeight="600"
+          fill={light ? "#a7f3d0" : "#166534"}
+        >
+          TM
+        </text>
+
+        {/* Tagline: "Harvesting Tomorrow" */}
+        {showTagline && (
+          <text
+            x="2"
+            y="68"
+            fontFamily="'Cormorant Garamond', 'Playfair Display', Georgia, serif"
+            fontSize="16"
+            fontStyle="italic"
+            fontWeight="600"
+            letterSpacing="0.3px"
+            fill={light ? "#a7f3d0" : "#2d7a3a"}
+          >
+            Harvesting Tomorrow
+          </text>
+        )}
+      </g>
+    </svg>
   );
 };

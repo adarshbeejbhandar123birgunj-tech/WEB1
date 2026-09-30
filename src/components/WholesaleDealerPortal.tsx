@@ -344,11 +344,11 @@ export const WholesaleDealerPortal: React.FC<WholesaleDealerPortalProps> = ({ la
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     {[
-                      'Certified Hybrid Seeds (US-312, Maize, Mustard)',
-                      'Crop Protection (Adama & Rotam Insecticides/Fungicides)',
-                      'Crop Nutrition (SML 90% Sulphur & Techno-Z)',
-                      'Biologicals (Grow Indigo Myco)',
-                      'Sprayers & Farm Equipment'
+                      'ISP Certified Seeds (Paddy, Maize, Vegetables, Mustard)',
+                      'Crop Protection (ADAMA & Albaugh Agrochemicals)',
+                      'SML Micronutrients (Sulphur 90%, Techno-Z, Sulanex-Z)',
+                      'Mankind Agritech (Pheromone Traps, Bio & Formulations)',
+                      'Bio-Fertilizers & Organic Manure (Prom & Vermi Wizard)'
                     ].map((cat) => (
                       <label key={cat} className="flex items-center gap-2 p-2 rounded-lg border border-stone-200 bg-stone-50 cursor-pointer hover:bg-stone-100">
                         <input
